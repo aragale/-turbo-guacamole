@@ -1,0 +1,4 @@
+Find Control Timeout: {AutomationId: 'Item1', ControlType: MenuItemControl}
+Find Control Timeout: {Name: '文件', ControlType: MenuItemControl}
+Find Control Timeout: {Name: '保存(S)', ControlType: MenuItemControl}
+Find Control Timeout: {AutomationId: '15', ControlType: EditControl}

@@ -1,0 +1,3 @@
+出错啦: 公告标题不能为空 ...
+新增[标题为： ，内容为：this is a test of adding notice] 公告失败
+
