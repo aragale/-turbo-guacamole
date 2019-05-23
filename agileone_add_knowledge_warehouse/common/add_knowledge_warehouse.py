@@ -15,14 +15,22 @@ class Add:
         self.driver.switch_to.default_content()
         self.driver.find_element_by_id("add").click()
         time.sleep(1)
-        self.judge()
+        self.judge(headline, content)
 
-    def judge(self):
+    def judge(self, headline, content):
         msg = self.driver.find_element_by_id("msg").text
         if "成功" in msg:
-            print("知识仓库新增记录成功")
+            info = "知识仓库新增记录 " + headline + " , " + content + " 成功"
+            print(info)
+            self.write_info(info)
         else:
-            print("知识仓库新增记录失败")
+            info = "知识仓库新增记录 " + headline + " , " + content + "失败"
+            print(info)
+            self.write_info(info)
+
+    def write_info(self, info):
+        with open(r"D:\project\python\GUI\agileone_add_knowledge_warehouse\logs\log.txt", mode="a") as file:
+            file.write(info + "\n")
 
     def __del__(self):
         self.driver.quit()

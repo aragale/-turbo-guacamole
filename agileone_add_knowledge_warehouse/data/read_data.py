@@ -1,5 +1,6 @@
 import xlrd
 from agileone_add_knowledge_warehouse.common.add_knowledge_warehouse import Add
+import xlsxwriter
 
 # 实例化excel文件对象
 excel = xlrd.open_workbook(r"case_data.xlsx")
@@ -21,5 +22,4 @@ for i in range(1, sheet.nrows):
     # print(all_values)
     need_values = all_values[-1:-4:-1]
     print(need_values)
-
     Add(int(need_values[2]), need_values[1], need_values[0])
