@@ -1,3 +1,3 @@
-from woniusales_add_commodities.cases.login import login
+from woniusales_add_commodities.common.login import login
 
 login()
