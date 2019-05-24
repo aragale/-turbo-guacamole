@@ -1,19 +1,19 @@
 import time
 
 
-from agileone_add_meeting.common.login import login
-
-
 class AddMeeting:
-    def __init__(self, organizer, address, topic, attendee, content):
-        self.driver = login()
-        time.sleep(1)
-        self.add_meeting(organizer, address, topic, attendee, content)
-        self.judge(organizer, address, topic, attendee, content)
+    # def __init__(self, driver, organizer, address, topic, attendee, content):
+    #     # self.driver = login()
+    #     # time.sleep(1)
+    #     self.driver = driver
+    #     self.add_meeting(organizer, address, topic, attendee, content)
+    #     self.judge(organizer, address, topic, attendee, content)
         # time.sleep(3)
         # self.driver.quit()
 
-    def add_meeting(self, organizer, address, topic, attendee, content):
+    def add_meeting(self, driver, organizer, address, topic, attendee, content):
+        self.driver = driver
+        time.sleep(1)
         self.driver.find_element_by_partial_link_text("会议记录").click()
         time.sleep(1)
         self.driver.find_element_by_id("organizer").send_keys(organizer)
@@ -25,6 +25,7 @@ class AddMeeting:
         self.driver.switch_to.default_content()
         self.driver.find_element_by_id("add").click()
         time.sleep(1)
+        self.judge(organizer, address, topic, attendee, content)
 
     def judge(self, organizer, address, topic, attendee, content):
         msg = self.driver.find_element_by_id("msg").text
@@ -44,9 +45,9 @@ class AddMeeting:
         with open(r"D:\project\python\GUI\notice_and_meeting\logs\log.txt", mode="a") as file:
             file.write(msg + "\n")
 
-    def __del__(self):
-        self.driver.quit()
+    # def __del__(self):
+    #     self.driver.quit()
 
 
-if __name__ == "__main__":
-    AddMeeting("test", "1", "2", "3", "this is a test!")
+# if __name__ == "__main__":
+#     AddMeeting("test", "1", "2", "3", "this is a test!")

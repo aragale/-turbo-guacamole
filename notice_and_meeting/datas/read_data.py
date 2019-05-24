@@ -1,8 +1,13 @@
 import sys
 import xlrd
+from notice_and_meeting.common.login import login
 
 excel = xlrd.open_workbook("case_data.xlsx")
 sheet = excel.sheets()[0]
+# login()
+driver = login()
+
+
 for i in range(1, sheet.nrows):
 # for i in range(5, sheet.nrows):
     all_values = sheet.row_values(i)
@@ -19,11 +24,13 @@ for i in range(1, sheet.nrows):
     # 根据（类的实例化）对象找方法
     # method = getattr(cname(), all_values[4])
     if "AddNotice" in str(cname):
-        method = getattr(cname(all_values[5], all_values[6]), all_values[4])
-        method(all_values[5], all_values[6])
+        method = getattr(cname(), all_values[4])
+        method(driver, all_values[5], all_values[6])
     elif "AddMeeting" in str(cname):
-        method = getattr(cname(all_values[7], all_values[8], all_values[9], all_values[10],
-                               all_values[11]), all_values[4])
-        method(all_values[7], all_values[8], all_values[9], all_values[10], all_values[11])
+        method = getattr(cname(), all_values[4])
+        method(driver, all_values[7], all_values[8], all_values[9], all_values[10], all_values[11])
         # method(organizer=all_values[7], address=all_values[8], topic=all_values[9], attendee=all_values[10],
         #        content=all_values[11])
+
+
+driver.quit()
