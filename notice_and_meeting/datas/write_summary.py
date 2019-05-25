@@ -1,4 +1,6 @@
 import xlsxwriter
+from notice_and_meeting.util import count_cases
+import time
 
 
 class WriteReport:
@@ -54,23 +56,49 @@ class WriteReport:
         self.report_sheet.write("B5", "运行环境", self.style2)
         self.report_sheet.write("B6", "测试网络", self.style2)
         # 第三列
-        self.report_sheet.write("C3", "", self.style2)
-        self.report_sheet.write("C4", "", self.style2)
-        self.report_sheet.write("C5", "", self.style2)
-        self.report_sheet.write("C6", "", self.style2)
+        self.report_sheet.write("C3", "Agileone", self.style2)
+        self.report_sheet.write("C4", "V1.4", self.style2)
+        self.report_sheet.write("C5", "Windows10", self.style2)
+        self.report_sheet.write("C6", "普通局域网", self.style2)
         # 第四列
         self.report_sheet.write("D3", "用例总数", self.style2)
         self.report_sheet.write("D4", "通过总数", self.style2)
         self.report_sheet.write("D5", "失败总数", self.style2)
         self.report_sheet.write("D6", "测试日期", self.style2)
         # 第五列
-        self.report_sheet.write("E3", "", self.style2)
-        self.report_sheet.write("E4", "", self.style2)
-        self.report_sheet.write("E5", "", self.style2)
-        self.report_sheet.write("E6", "", self.style2)
+        self.report_sheet.write("E3", count_cases.fail_num+count_cases.pass_num, self.style2)
+        self.report_sheet.write("E4", count_cases.pass_num, self.style2)
+        self.report_sheet.write("E5", count_cases.fail_num, self.style2)
+        self.report_sheet.write("E6", time.strftime("%Y-%m-%d %H:%M:%S"), self.style2)
         # 第六列
         self.report_sheet.write("F3", "分数", self.style2)
         # 关闭当前对excel的操作
+        self.excel.close()
+
+    def set_pie_chart(self):
+        pie_chart = self.excel.add_chart({"type": "pie"})
+        pie_chart.add_series({
+            "name": "Agileone测试统计",
+            "categories": "=测试总况!$D$4:$D$5",
+            "values": "=测试总况!$E$4:$E$5",
+        })
+        pie_chart.set_title({"name": "Agileone测试统计"})
+        self.report_sheet.insert_chart("A9", pie_chart)
+
+    def set_cylindrical_diagram(self):
+        cylindrical_diagram = self.excel.add_chart({"type": "column"})
+        cylindrical_diagram.add_series({
+            "name": "用例执行结果",
+            # 饼图右侧说明“通过用例数”，“失败用例数”
+            "categories": "=测试总况!$D$4:$D$5",
+            # 饼图显示的数据
+            "values": "=测试总况!$E$4:$E$5",
+        })
+        cylindrical_diagram.set_title({"name": "Agileone测试统计"})
+        cylindrical_diagram.set_y_axis({"name": "数量"})
+        cylindrical_diagram.set_x_axis({"name": "结果分类"})
+        self.report_sheet.insert_chart("A25", cylindrical_diagram)
+        # 关闭文件对象
         self.excel.close()
 
 
@@ -79,4 +107,5 @@ if __name__ == "__main__":
     wr.set_sheet()
     wr.set_format()
     wr.set_data()
-
+    wr.set_cylindrical_diagram()
+    wr.set_pie_chart()
