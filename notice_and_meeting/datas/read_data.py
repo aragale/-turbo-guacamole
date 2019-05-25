@@ -1,6 +1,7 @@
 import sys
 import xlrd
 from notice_and_meeting.common.login import login
+from notice_and_meeting.util import count_cases
 
 excel = xlrd.open_workbook("case_data.xlsx")
 sheet = excel.sheets()[0]
@@ -33,5 +34,7 @@ for i in range(1, sheet.nrows):
         # method(organizer=all_values[7], address=all_values[8], topic=all_values[9], attendee=all_values[10],
         #        content=all_values[11])
 
+print(count_cases.pass_num)
+print(count_cases.fail_num)
 
 driver.quit()

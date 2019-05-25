@@ -1,5 +1,6 @@
 import time
-
+from notice_and_meeting.util.count_cases import count_success
+from notice_and_meeting.util.count_cases import count_fail
 
 class AddMeeting:
     # def __init__(self, driver, organizer, address, topic, attendee, content):
@@ -54,10 +55,18 @@ class AddMeeting:
             log_info = info + "  实际结果：新增会议成功  " + exe_time
             print(log_info)
             self.write_info(log_info)
+            if "成功" in info:
+                count_success()
+            else:
+                count_fail()
         else:
             log_info = info + "  实际结果：新增会议失败  " + exe_time
             print(log_info)
             self.write_info(log_info)
+            if "失败" in info:
+                count_success()
+            else:
+                count_fail()
 
     def write_info(self, msg):
         with open(r"D:\project\python\GUI\notice_and_meeting\logs\log.txt", mode="a") as file:
