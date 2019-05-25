@@ -11,6 +11,7 @@ driver = login()
 for i in range(1, sheet.nrows):
 # for i in range(5, sheet.nrows):
     all_values = sheet.row_values(i)
+    log_values = "用例标题："+all_values[1] + "  预期结果："+all_values[12]
     # notice_values = all_values[]
     # meeting_values = all_values[]
     # 动态导包
@@ -25,10 +26,10 @@ for i in range(1, sheet.nrows):
     # method = getattr(cname(), all_values[4])
     if "AddNotice" in str(cname):
         method = getattr(cname(), all_values[4])
-        method(driver, all_values[5], all_values[6])
+        method(driver, all_values[5], all_values[6], log_values)
     elif "AddMeeting" in str(cname):
         method = getattr(cname(), all_values[4])
-        method(driver, all_values[7], all_values[8], all_values[9], all_values[10], all_values[11])
+        method(driver, all_values[7], all_values[8], all_values[9], all_values[10], all_values[11], log_values)
         # method(organizer=all_values[7], address=all_values[8], topic=all_values[9], attendee=all_values[10],
         #        content=all_values[11])
 
